@@ -1,0 +1,210 @@
+/**
+ * Main CSS file
+ *
+ */
+
+/* General defaults */
+
+body {
+	font: 12px Arial;
+	color: #222;
+	text-align: center;
+	padding: 10px 0;
+}
+
+form, p, span {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* Contents */
+
+#wrapper {
+	margin: 0 auto;
+	background: #EBF4FB;
+	width: 549px;
+	border: 1px solid #ACD8F0;
+}
+
+#menu {
+	padding: 20px 20px 5px 20px;
+}
+
+#main {
+	padding: 0 20px;
+}
+
+#board {
+	position: relative;
+	float: left;
+	width: 361px;
+	height: 361px;
+	background: #fff url('../img/ludoboard.png');
+}
+
+#chatbox {
+	float: left;
+	width: 143px;
+	padding-left: 5px;
+}
+
+#players {
+	text-align: left;
+	background: #ffffc0;
+	width: 136px;
+	height: 96px;
+	border: 1px solid #ACD8F0;
+	padding: 5px 0 0 5px;
+	margin-bottom: 5px;
+}
+
+#players p {
+	margin-bottom: 5px;
+}
+
+#players p span.icon {
+	position: relative;
+	top: 2px;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	/* Give it a round shape */
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	/* Shadow */
+	-webkit-box-shadow: 2px 2px 2px 0px;
+	box-shadow: 2px 2px 2px 0px;
+}
+
+#players p.green span.icon {
+	background-color: #00ff00;
+}
+
+#players p.red span.icon {
+	background-color: #ff0000;
+}
+
+#players p.blue span.icon {
+	background-color: #0000ff;
+}
+
+#players p.yellow span.icon {
+	background-color: #ffff00;
+}
+
+#players p span.name {
+	margin-left: 5px;
+	color: #8AADC0;
+}
+
+#players p span.turn {
+	font-weight: bold;
+	color: black;
+}
+
+#chatlog {
+	text-align: left;
+	background: #fff;
+	width: 141px;
+	height: 251px;
+	border: 1px solid #ACD8F0;
+	overflow: auto;
+}
+
+#chatlog p {
+	padding: 3px;
+	border-bottom: 1px dotted #ACD8F0;;
+}
+
+#msginput {
+	padding: 5px 20px 20px 20px;
+}
+
+#usermsg {
+	float: left;
+	width: 360px;
+	border: 1px solid #ACD8F0;
+	color: #566C78;
+}
+
+#submitmsg {
+	float: right;
+	width: 143px;
+	border: 1px solid #ACD8F0;
+	color: #7897A8;
+}
+
+p.game_started {
+	float: left;
+	margin-right: 20px;
+}
+
+p.time_elapsed {
+	float: left;
+}
+
+p.abandon {
+	float: right;
+}
+
+/* Coins */
+
+div.coin {
+	position: absolute;
+	/* (width + 2 * margin) should equal the parameter 'h' (side of a board square) */
+	width: 16px;
+	height: 16px;
+	margin: 4px;
+	/* Give it a round shape */
+	-webkit-border-radius: 8px;
+    border-radius: 8px;
+	/* Shadow */
+	-webkit-box-shadow: 2px 2px 2px 0px;
+	box-shadow: 2px 2px 2px 0px;
+}
+
+div.green {
+	background-color: #00ff00;
+}
+
+div.red {
+	background-color: #ff0000;
+}
+
+div.blue {
+	background-color: #0000ff;
+}
+
+div.yellow {
+	background-color: #ffff00;
+}
+
+div.goto {
+	position: absolute;
+	/* (width + 2 * margin) should equal the parameter 'h' (side of a board square) */
+	width: 18px;
+	height: 18px;
+	margin: 3px;
+	border: 1px dashed #8AADC0;
+	background-color: rgba(138, 173, 192, .15);
+}
+
+div#board div.info {
+	position: absolute;
+	width: 7em;
+	background-color: #EBF4FB;
+	border: 1px solid #ACD8F0;
+	padding: 5px;
+	/* Rounded corners */
+	-webkit-border-radius: 7px;
+    border-radius: 7px;
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ludo board (demo)</title>
+	<link type="text/css" rel="stylesheet" href="style.css" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="ludo.js"></script>
+</head>
+
+<body>
+<div id="wrapper">
+	<!-- MENU : Display stats and options -->
+	<div id="menu">
+		<p class="game_started"><strong>Game started</strong>: <span class="game_started"></span></p>
+		<p class="time_elapsed"><strong>Time elapsed</strong>: <span class="time_elapsed"></span></p>
+		<p class="abandon"><a id="exit" href="#">Abandon game</a></p>
+		<div style="clear:both"></div>
+	</div>
+	
+	<div id="main">
+		<!-- BOARD : Includes all its elements (e.g. coins) -->
+		<div id="board">
+			<div class="coin green green_number1"></div>
+			<div class="goto"></div>
+			<div class="info">Click to move the coin here!<br />&darr;</div>
+		</div>
+		
+		<!-- CHAT BOX : Includes list of players -->
+		<div id="chatbox">
+			<div id="players">
+				<!-- TODO: These items should be added dynamically -->
+				<p class="green" title="Green"><span class="icon"></span> <span class="name turn">Alice</span></p>
+				<p class="red" title="Red"><span class="icon"></span> <span class="name">Bob</span></p>
+				<p class="blue" title="Blue"><span class="icon"></span> <span class="name">Carl</span></p>
+				<p class="yellow" title="Yellow"><span class="icon"></span> <span class="name">Dave</span></p>
+			</div>
+			<div id="chatlog">
+				<p><strong>Dave</strong>: Your turn, Alice!</p>
+				<p><strong>Alice</strong>: Dave, don't be silly&mdash;this is just a mock-up!</p>
+			</div>
+		</div>
+		
+		<div style="clear: both;"></div>
+	</div>
+
+	<!-- MESSAGE INPUT -->
+	<div id="msginput">
+		<input id="usermsg" name="usermsg" type="text" size="63" />
+		<input id="submitmsg" name="submitmsg" type="button" value="Send" />
+		<div style="clear:both"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	/**
+	 * Parameters object
+	 *
+	 * For more information about these parameters, see the documentation here:
+	 *   <https://github.com/sudiptachatterjee/ludo/wiki/Game-state>
+	 *
+	 * TODO: It should be loaded (or rather, set) dynamically if the option to choose different boards is given.
+	 *       As long as we use one board (the one taken from Wikipedia), these parameters can be hard-coded.
+	 */
+	var params = {
+		x_0 : 0,
+		y_0 : 144,
+		h : 24
+	};
+	
+	/* Global variables */
+	
+	var greenCoin1Pos = 1;	// Initial position of green coin #1
+	var delta = 4;			// Number of squares to advance
+	var gotoPos = greenCoin1Pos + delta;	// Initial position of the 'goto' pointer
+	
+	var time_elapsed = $('div#menu p.time_elapsed span.time_elapsed');	// Elapsed time text element
+	var init_time = new Date();		// When did the game begin?
+	
+	/* Set date & time when the game started */
+	$('div#menu p.game_started span.game_started').text(dateToString(init_time));	
+	
+	/* Update timer */
+	window.setInterval(function() {
+		time_elapsed.text(getTimeDiff(init_time, new Date()));
+	}, 200);	// Every 200ms
+	
+	/* Simplify user input by default */
+	$('#usermsg').val('').focus();
+	
+	/* Initialize coin */
+	var coords = absoluteToCoordinates(greenCoin1Pos, params);
+	$('div#board div.green_number1').css('left', coords.x).css('top', coords.y);
+	
+	/* Initialize goto pointer */
+	coords = absoluteToCoordinates(gotoPos, params);
+	$('div#board div.goto').css('left', coords.x).css('top', coords.y);
+	
+	/* Initialize info message */
+	var info_box = $('div#board div.info');
+	info_box
+		.css('left', coords.x - Math.floor((info_box.outerWidth() - params.h) / 2))
+		.css('top', coords.y - info_box.outerHeight());
+	
+	/**
+	 * Click on goto pointer
+	 *
+	 * Advance coin to goto pointer and update pointer
+	 */
+	$('div.goto').click(function() {
+		/* Hide info box */
+		info_box.fadeOut('slow');
+		
+		/* Save current pointer position */
+		var oldGotoPos = gotoPos;
+		
+		/* Update goto pointer */
+		gotoPos += delta;
+		if (gotoPos > 52) gotoPos %= 52;
+		
+		/* Advance goto pointer */
+		coords = absoluteToCoordinates(gotoPos, params);
+		$(this).css('left', coords.x).css('top', coords.y);
+		
+		/* Move coin from current position to where the destination was at the beginning */
+		while (greenCoin1Pos != oldGotoPos) {
+			/* Increment position */
+			++greenCoin1Pos;
+			if (greenCoin1Pos > 52) greenCoin1Pos %= 52;
+			
+			/* Advance coin */
+			coords = absoluteToCoordinates(greenCoin1Pos, params);
+			$('div.green_number1').animate({
+				'left' : coords.x,
+				'top' : coords.y
+			}, 'fast');
+		}
+
+		/* Simplify user input */
+		usermsg.focus();
+	});
+	
+	/* Submit user message */
+	$('#submitmsg').click(function() {
+		/* Element variables */
+		var chatlog = $('#chatlog');
+		var usermsg = $('#usermsg');
+		
+		/* If message is empty, do nothing */
+		if ($.trim(usermsg.val()) == '') {
+			return false;
+		}
+		
+		/* Append new text */
+		chatlog.append('<p><strong>Alice</strong>: ' + usermsg.val() + '</p>');
+		
+		/* Scroll to the bottom of the log */
+		chatlog.attr('scrollTop', chatlog.attr('scrollHeight'));
+		
+		/* Simplify user input */
+		usermsg.val('').focus();
+	});
+</script>
+</body>
+</html>
