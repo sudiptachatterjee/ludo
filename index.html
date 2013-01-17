@@ -144,8 +144,9 @@
 		var chatlog = $('#chatlog');
 		var usermsg = $('#usermsg');
 		
-		/* If message is empty, do nothing */
+		/* If message is empty, there's nothing to add to the chat log; just return focus to user input */
 		if ($.trim(usermsg.val()) == '') {
+			usermsg.val('').focus();
 			return false;
 		}
 		
