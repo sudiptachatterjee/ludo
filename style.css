@@ -48,7 +48,7 @@ a:hover {
 	float: left;
 	width: 361px;
 	height: 361px;
-	background: #fff url('../img/ludoboard.png');
+	background: #fff url('img/ludoboard.png');
 }
 
 #chatbox {
