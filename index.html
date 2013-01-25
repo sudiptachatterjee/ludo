@@ -21,7 +21,7 @@
 	<div id="main">
 		<!-- BOARD : Includes all its elements (e.g. coins) -->
 		<div id="board">
-			<div class="coin green green_number1"></div>
+			<div class="green coin" id="greencoin_1"></div>
 			<div class="goto"></div>
 			<div class="info">Click to move the coin here!<br />&darr;</div>
 		</div>
@@ -89,7 +89,7 @@
 	
 	/* Initialize coin */
 	var coords = absoluteToCoordinates(greenCoin1Pos, params);
-	$('div#board div.green_number1').css('left', coords.x).css('top', coords.y);
+	$('#greencoin_1').css('left', coords.x).css('top', coords.y);
 	
 	/* Initialize goto pointer */
 	coords = absoluteToCoordinates(gotoPos, params);
@@ -106,7 +106,7 @@
 	 *
 	 * Advance coin to goto pointer and update pointer
 	 */
-	$('div.goto').click(function() {
+	$('div#board div.goto').click(function() {
 		/* Hide info box */
 		info_box.fadeOut('slow');
 		
@@ -129,7 +129,7 @@
 			
 			/* Advance coin */
 			coords = absoluteToCoordinates(greenCoin1Pos, params);
-			$('div.green_number1').animate({
+			$('#greencoin_1').animate({
 				'left' : coords.x,
 				'top' : coords.y
 			}, 'fast');
