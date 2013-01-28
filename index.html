@@ -24,7 +24,9 @@
 		<div id="board">
 			<div class="green coin" id="greencoin_1"></div>
 			<div class="goto"></div>
+			<!-- TODO: Delete
 			<div class="info">Click to move the coin here!<br />&darr;</div>
+			-->
 		</div>
 		
 		<!-- CHAT BOX : Includes list of players -->
@@ -101,10 +103,12 @@
 	$('div#board div.goto').css('left', coords.x).css('top', coords.y);
 	
 	/* Initialize info message */
+	/* TODO: Delete
 	var info_box = $('div#board div.info');
 	info_box
 		.css('left', coords.x - Math.floor((info_box.outerWidth() - params.h) / 2))
 		.css('top', coords.y - info_box.outerHeight());
+	*/
 	
 	/**
 	 * Click on goto pointer
@@ -113,7 +117,9 @@
 	 */
 	$('div#board div.goto').click(function() {
 		/* Hide info box */
+		/* TODO: Delete
 		info_box.fadeOut('slow');
+		*/
 		
 		/* Save current pointer position */
 		var oldGotoPos = gotoPos;
