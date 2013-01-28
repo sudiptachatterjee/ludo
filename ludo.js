@@ -3,6 +3,43 @@
  */
 
 /**
+ * Rotate a point around the board's center
+ *
+ * Rotate coords with respect to (x_c, y_c) this number of degrees clockwise: 90° * playerIndex
+ * For more information on the rotation matrix, see:
+ *   <http://en.wikipedia.org/wiki/Rotation_matrix>
+ */
+function rotate(playerIndex, coords, params) {
+	/* Validate parameter */
+	if (playerIndex < 0 || playerIndex > 3) {
+		throw 'playerIndex parameter out of range';
+	}
+	
+	var newCoords = new Object();
+	var theta = playerIndex * Math.PI / 2;
+	var x = coords.x - params.x_c;
+	var y = coords.y - params.y_c;
+	
+	newCoords.x = Math.cos(theta) * x - Math.sin(theta) * y + params.x_c;
+	newCoords.y = Math.sin(theta) * x + Math.cos(theta) * y + params.y_c;
+	
+	switch (playerIndex) {
+		case 1:
+			newCoords.x -= params.h;
+			break;
+		case 2:
+			newCoords.x -= params.h;
+			newCoords.y -= params.h;
+			break;
+		case 3:
+			newCoords.y -= params.h;
+			break;
+	}
+	
+	return newCoords;
+}
+
+/**
  * Absolute to Coordinates
  *
  * Returns the coordinates (x, y) of an absolute position on the board.
