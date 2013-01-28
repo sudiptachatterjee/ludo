@@ -98,22 +98,6 @@ a:hover {
 	box-shadow: 2px 2px 2px 0px;
 }
 
-#players p.green span.icon {
-	background-color: #00ff00;
-}
-
-#players p.red span.icon {
-	background-color: #ff0000;
-}
-
-#players p.blue span.icon {
-	background-color: #0000ff;
-}
-
-#players p.yellow span.icon {
-	background-color: #ffff00;
-}
-
 #players p span.name {
 	margin-left: 5px;
 	color: #8AADC0;
@@ -172,20 +156,20 @@ div.coin {
 	box-shadow: 2px 2px 2px 0px;
 }
 
-div.green {
-	background-color: #00ff00;
+#players p.green span.icon, div.green {
+	background-color: #00e000;
 }
 
-div.red {
-	background-color: #ff0000;
+#players p.red span.icon, div.red {
+	background-color: #e00000;
 }
 
-div.blue {
-	background-color: #0000ff;
+#players p.blue span.icon, div.blue {
+	background-color: #0000e0;
 }
 
-div.yellow {
-	background-color: #ffff00;
+#players p.yellow span.icon, div.yellow {
+	background-color: #e0e000;
 }
 
 div.goto {
