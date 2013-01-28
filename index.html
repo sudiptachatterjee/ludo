@@ -32,10 +32,10 @@
 		<div id="chatbox">
 			<div id="players">
 				<!-- TODO: These items should be added dynamically -->
-				<p class="green" title="Green"><span class="icon"></span> <span class="name turn">Alice</span></p>
-				<p class="red" title="Red"><span class="icon"></span> <span class="name">Bob</span></p>
-				<p class="blue" title="Blue"><span class="icon"></span> <span class="name">Carl</span></p>
-				<p class="yellow" title="Yellow"><span class="icon"></span> <span class="name">Dave</span></p>
+				<p class="green" title="Green"><span class="icon"></span> <span class="name"></span></p>
+				<p class="red" title="Red"><span class="icon"></span> <span class="name"></span></p>
+				<p class="blue" title="Blue"><span class="icon"></span> <span class="name"></span></p>
+				<p class="yellow" title="Yellow"><span class="icon"></span> <span class="name"></span></p>
 			</div>
 			<div id="chatlog">
 			</div>
@@ -72,6 +72,16 @@
 	};
 	
 	/**
+	 * Place a player's coin correctly on the screen
+	 */
+	function putCoin(playerIndex, coinIndex, absPos) {
+		var coords = absoluteToCoordinates(playerIndex, coinIndex, absPos, params);
+		var color = getColor(playerIndex);
+		
+		$('#' + color + 'coin_' + coinIndex).css('left', coords.x).css('top', coords.y);
+	}
+	
+	/**
 	 * Define the players of the current game
 	 *
 	 * TODO: Generate dynamically
@@ -81,11 +91,29 @@
 	// Number of players
 	var noOfPlayers = player.length;
 	
+	/**
+	 * Display players' names and generate players' coin elements (the HTML elements to display)
+	 */
+	for (var playerIndex = 0; playerIndex < 4; ++playerIndex) {
+		$('#players p.' + getColor(playerIndex) + ' span.name').text(player[playerIndex].getName());
+	
+		for (var coinIndex = 0; coinIndex < 4; ++coinIndex) {
+			// Create new coin element
+			var newCoin_id = getColor(playerIndex) + 'coin_' + coinIndex;
+			$('#board').prepend('<div class="' + getColor(playerIndex) + ' coin" id="' + newCoin_id + '"></div>');
+			
+			// Display it on the screen
+			putCoin(playerIndex, coinIndex, player[playerIndex].positionOfCoin(coinIndex));
+		}
+	}
+	
 	/* Global variables */
 	
-	var greenCoin1Pos = 1;	// Initial position of green coin #1
-	var delta = 4;			// Number of squares to advance
-	var gotoPos = greenCoin1Pos + delta;	// Initial position of the 'goto' pointer
+	var playerIndex = 0;
+	var coinIndex = 0;
+		
+	var delta = 1;	// Number of squares to advance
+	var gotoPos = player[playerIndex].positionOfCoin(coinIndex) + delta;	// Initial position of the 'goto' pointer
 	
 	var time_elapsed = $('div#menu p.time_elapsed span.time_elapsed');	// Elapsed time text element
 	var init_time = new Date();		// When did the game begin?
@@ -101,12 +129,11 @@
 	/* Simplify user input by default */
 	$('#usermsg').val('').focus();
 	
-	/* Initialize coin */
-	var coords = absoluteToCoordinates(greenCoin1Pos, params);
-	$('#greencoin_1').css('left', coords.x).css('top', coords.y);
+	/* Highlight current player */
+	$('#players p.' + getColor(playerIndex) + ' span.name').addClass('turn');
 	
 	/* Initialize goto pointer */
-	coords = absoluteToCoordinates(gotoPos, params);
+	var coords = absoluteToCoordinates(playerIndex, coinIndex, gotoPos, params);
 	$('div#board div.goto').css('left', coords.x).css('top', coords.y);
 	
 	/* Initialize info message */
@@ -133,21 +160,20 @@
 		
 		/* Update goto pointer */
 		gotoPos += delta;
-		if (gotoPos > 52) gotoPos %= 52;
+		if (gotoPos > 57) gotoPos = 57;
 		
 		/* Advance goto pointer */
-		coords = absoluteToCoordinates(gotoPos, params);
+		coords = absoluteToCoordinates(playerIndex, coinIndex, gotoPos, params);
 		$(this).css('left', coords.x).css('top', coords.y);
 		
 		/* Move coin from current position to where the destination was at the beginning */
-		while (greenCoin1Pos != oldGotoPos) {
+		while (player[playerIndex].positionOfCoin(coinIndex) != oldGotoPos) {
 			/* Increment position */
-			++greenCoin1Pos;
-			if (greenCoin1Pos > 52) greenCoin1Pos %= 52;
+			player[playerIndex].advance(coinIndex, 1);
 			
 			/* Advance coin */
-			coords = absoluteToCoordinates(greenCoin1Pos, params);
-			$('#greencoin_1').animate({
+			coords = absoluteToCoordinates(playerIndex, coinIndex, player[playerIndex].positionOfCoin(coinIndex), params);
+			$('#' + getColor(playerIndex) + 'coin_' + coinIndex).animate({
 				'left' : coords.x,
 				'top' : coords.y
 			}, 'fast');
@@ -170,7 +196,7 @@
 		}
 		
 		/* Append new text */
-		chatlog.append('<p><strong>Alice</strong>: ' + usermsg.val() + '</p>');
+		chatlog.append('<p><strong>' + player[playerIndex].getName() + '</strong>: ' + usermsg.val() + '</p>');
 		
 		/* Scroll to the bottom of the log */
 		chatlog.attr('scrollTop', chatlog.attr('scrollHeight'));

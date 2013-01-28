@@ -45,62 +45,76 @@ function rotate(playerIndex, coords, params) {
  * Returns the coordinates (x, y) of an absolute position on the board.
  * For more information about these parameters, see the documentation here:
  *   <https://github.com/sudiptachatterjee/ludo/wiki/Game-state>
- *
- * TODO: This will have to be updated to include the home run and possibly the pockets.
  */
-function absoluteToCoordinates(n, params) {
-	/* Validate parameter */
-	if (n < 1 || n > 52) {
-		throw new Error("The parameter n is outside the interval from 1 to 52 inclusive.");
+function absoluteToCoordinates(playerIndex, coinIndex, absPos, params) {
+	/* Validate parameters */
+	if (playerIndex < 0 || playerIndex > 3) {
+		throw 'parameter playerIndex out of range';
+	}
+	if (coinIndex < 0 || coinIndex > 3) {
+		throw 'parameter coinIndex out of range';
+	}
+	if (absPos < 0 || absPos > 57) {
+		throw 'parameter absPos out of range';
 	}
 	
 	/* Create new coordinates object */
 	var coords = new Object();
 	
+	if (absPos === 0) {
+		coords.x = params['x_P' + coinIndex];
+		coords.y = params['y_P' + coinIndex];
+		
+		return rotate(playerIndex, coords, params);
+	}
+	
 	/* Get offset from (x_0, y_0) */
-	if (n >= 1 && n <= 5) {
-		coords.x = n;
+	if (absPos >= 1 && absPos <= 5) {
+		coords.x = absPos;
 		coords.y = 0;
-	} else if (n <= 11) {
+	} else if (absPos <= 11) {
 		coords.x = 6;
-		coords.y = 5 - n;
-	} else if (n == 12) {
+		coords.y = 5 - absPos;
+	} else if (absPos == 12) {
 		coords.x = 7;
 		coords.y = -6;
-	} else if (n <= 18) {
+	} else if (absPos <= 18) {
 		coords.x = 8;
-		coords.y = n - 19;
-	} else if (n <= 24) {
-		coords.x = n - 10;
+		coords.y = absPos - 19;
+	} else if (absPos <= 24) {
+		coords.x = absPos - 10;
 		coords.y = 0;
-	} else if (n == 25) {
+	} else if (absPos == 25) {
 		coords.x = 14;
 		coords.y = 1;
-	} else if (n <= 31) {
-		coords.x = 40 - n;
+	} else if (absPos <= 31) {
+		coords.x = 40 - absPos;
 		coords.y = 2;
-	} else if (n <= 37) {
+	} else if (absPos <= 37) {
 		coords.x = 8;
-		coords.y = n - 29;
-	} else if (n == 38) {
+		coords.y = absPos - 29;
+	} else if (absPos == 38) {
 		coords.x = 7;
 		coords.y = 8;
-	} else if (n <= 44) {
+	} else if (absPos <= 44) {
 		coords.x = 6;
-		coords.y = 47 - n;
-	} else if (n <= 50) {
-		coords.x = 50 - n;
+		coords.y = 47 - absPos;
+	} else if (absPos <= 50) {
+		coords.x = 50 - absPos;
 		coords.y = 2;
-	} else if (n <= 52) {
+	} else if (absPos == 51) {
 		coords.x = 0;
-		coords.y = 52 - n;
+		coords.y = 1;
+	} else if (absPos <= 57) {
+		coords.x = absPos - 51;
+		coords.y = 1;
 	}
 
 	/* Transform into coordinates */
 	coords.x = params.x_0 + coords.x * params.h;
 	coords.y = params.y_0 + coords.y * params.h;
 	
-	return coords;
+	return rotate(playerIndex, coords, params);
 }
 
 /**
