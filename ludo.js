@@ -104,6 +104,28 @@ function absoluteToCoordinates(n, params) {
 }
 
 /**
+ * Converts a player's index to a string that contains its color in lowercase.
+ */
+function getColor(playerIndex) {
+	switch (playerIndex) {
+		case 0:
+			return 'green';
+			break;
+		case 1:
+			return 'red';
+			break;
+		case 2:
+			return 'blue';
+			break;
+		case 3:
+			return 'yellow';
+			break;
+		default:
+			throw 'playerIndex out of range';
+	}
+}
+
+/**
  * Get time difference based on two Date's.
  *
  * Returns the time difference between two Date objects formatted as "h:mm:ss"
