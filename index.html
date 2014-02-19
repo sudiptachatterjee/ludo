@@ -4,7 +4,7 @@
 	<title>Ludo board (demo)</title>
 	<meta charset="UTF-8" />
 	<link type="text/css" rel="stylesheet" href="style.css" />
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery-2.1.0.min.js"></script>
 	<script type="text/javascript" src="player.js"></script>
 	<script type="text/javascript" src="ludo.js"></script>
 </head>
@@ -37,6 +37,13 @@
 				<p class="blue" title="Blue"><span class="icon"></span> <span class="name"></span></p>
 				<p class="yellow" title="Yellow"><span class="icon"></span> <span class="name"></span></p>
 			</div>
+            <div id="rollDisplay">
+                <p> Last roll: </p>
+                <span id="diceRollDisplay" class="diceRollDisplay">0</span>
+            </div>
+            <div id="diceroll">
+                <button id="diceClickBtn" class="diceClickBtn">Roll Dice</button>
+            </div>
 			<div id="chatlog">
 			</div>
 		</div>
