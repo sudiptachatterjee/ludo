@@ -160,11 +160,23 @@ function getTimeDiff(date_start, date_end) {
 /**
  * Returns a string representation of a Date object.
  *
- * Obviously the Date.toUTCString() method could be used, but this allows for easier and better customization.
+ * Obviously the Date.toUTCString() method could be used, 
+ * but this allows for easier and better customization.
  */
 function dateToString(d) {
 	var hh = d.getHours();
 	var mm = d.getMinutes();
 	var fmt = d.toDateString() + ' at ' + hh + ':' + (mm < 10 ? '0' : '') + mm;
 	return fmt;
+}
+
+/**
+ * Simulate the roll of a dice
+ * 
+ * Returns a random value between 1-6 (inclusive), and updates the 
+ * game state to DICE_ROLLED_MOVE_PENDING.
+ */
+function rollDice() {
+    //TBD: Set the game state
+    return Math.floor(Math.random()*6)
 }
